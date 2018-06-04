@@ -1,17 +1,21 @@
-TASK (EASY) DATE: 15.02.2017 - 15.11.17
+FOR PRIVACY AND CODE PROTECTING REASONS THIS IS A SIMPLIFIED VERSION OF CHANGES AND NEW FEATURES
 
-TASK SHORT DESCRIPTION: 827 - part - just making some changes on other modules
+TASK DATE : DATE: 15.02.2017 - 15.11.17
 
+TASK'S LEVEL: (MEDIUM)
+
+TASK SHORT DESCRIPTION: 827 [
+								 827 - part - just making some changes on other modules
+							]
+							
 GITHUB REPOSITORY CODE: feature/task-827-careers-module-phase-1
-
-ORIGINAL WORK: https://github.com/BusinessBecause/network-site/tree/feature/task-827-careers-module-phase-1
 
 CHANGES
 
 	IN FILES: 
 	
-		\network-site\addons\default\modules\network_settings\views\content_resources\resources_form.php
-		\network-site\addons\default\modules\network_settings\views\content\events_form.php
+		resources_form.php
+		events_form.php
 		
 			ADDED CODE IN IT: 
 			
@@ -22,7 +26,7 @@ CHANGES
 					
 			
 			
-		\network-site\addons\default\modules\network_settings\views\content\clubs_form.php
+		clubs_form.php
 
 			ADDED CODE IN IT: 
 			
@@ -33,7 +37,7 @@ CHANGES
 								
 								
 		
-		\network-site\addons\default\modules\network_settings\controllers\content_resources.php
+		content_resources.php
 		
 			ADDED CODE IN IT: 
 			
@@ -48,7 +52,7 @@ CHANGES
 					
 					
 		
-		\network-site\addons\default\modules\network_settings\views\content\news_form.php
+		news_form.php
 		
 			ADDED CODE IN IT: 
 			
@@ -62,7 +66,7 @@ CHANGES
 				</li>
 				
 		
-		\network-site\addons\default\modules\network_settings\controllers\content.php
+		content.php
 		
 			ADDED CODE IN IT: 
 			
@@ -85,7 +89,7 @@ CHANGES
 					
 			
 		
-		\network-site\addons\default\modules\news\language\english\news_lang.php
+		news_lang.php
 		
 			ADDED CODE IN IT: 
 			
@@ -94,7 +98,7 @@ CHANGES
 				
 				
 				
-		\network-site\addons\default\modules\careers\details.php
+		details.php
 		
 		
 			ADDED CODE IN IT 
@@ -141,23 +145,7 @@ CHANGES
 							@mkdir($basePath . $this->upload_path . 'careers/content', 0777, true);
 							@mkdir($basePath . $this->upload_path . 'careers/content/thumbs', 0777, true);
 
-							//create a new careers_setup table
-							$this->_create_careers_setup_table();
-							
-							//insert data into careers_setup table, with default data
-							$this->_insert_into_careers_setup_table($this->_get_records_to_careers_setup_table());
-
-							//add some necessary fields to setup table
-							$this->_insert_into_settings_table($this->_get_records_to_settings_table());
-
-							//Add some boolean fields to tables	
-							$table = $this->db->dbprefix("news");	
-							$this->add_boolean_field_to_table($table, $field = "show_careers_tab", $null = false, $default = false, $after = 'show_author'); 
-							$this->add_boolean_field_to_table($table, $field = "show_careers_guides", $null = false, $default = false, $after = 'show_careers_tab'); 
-							$table = $this->db->dbprefix("resources");	
-							$this->add_boolean_field_to_table($table, $field = "show_careers_tab", $null = false, $default = false, $after = 'status'); 
-							$table = $this->db->dbprefix("clubs");	
-							$this->add_boolean_field_to_table($table, $field = "show_careers_tab", $null = false, $default = false, $after = 'private_club'); 
+							...............
 							
 							return true;
 						}
@@ -172,9 +160,7 @@ CHANGES
 							//delete career module fields from settings table
 							$this->db->delete($this->db->dbprefix('settings'), array('module' => 'careers'));
 							
-							//deleting upload/careers folder and their all subfolders, files
-							$basePath = (basename(FCPATH) == 'installer') ? dirname(FCPATH) . '/' : FCPATH;
-							$this->delete_directory_and_files($basePath . $this->upload_path . 'careers');
+							........................
 							
 							return TRUE;
 						}
@@ -204,9 +190,7 @@ CHANGES
 							return $this->db->query(
 										"CREATE TABLE IF NOT EXISTS `" . $this->db->dbprefix("careers_setup") . "` ( " .
 										" `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
-										" `section` varchar(100) NOT NULL,  " .
-										" `settings` text, " .
-										" `updated_on` int(11) , " .
+										..............
 										" `updated_by` int(11) " .
 										") ENGINE=InnoDB  DEFAULT CHARSET=utf8;"
 									);	
@@ -220,12 +204,7 @@ CHANGES
 								$table = $this->db->dbprefix('careers_setup');
 								$time = time();
 								foreach ($records as $key => $record) {			
-									if ( ! $this->db->value_exists($record['section'], 'section', $table)) {
-										if ( ! in_array('updated_on', $record)) $record['updated_on'] = $time;
-										if ( ! in_array('updated_by', $record)) $record['updated_by'] = $this->current_user->id;
-										$record['settings'] = serialize($record['settings']);
-										$this->db->insert($table, $record);
-									}
+									................
 								}
 							}
 						}//END function function _insert_into_careers_setup_table		
@@ -398,12 +377,7 @@ CHANGES
 						public function add_boolean_field_to_table($table, $field, $null = false, $default = null, $after = '') 
 						{
 							if (!$this->db->field_exists($field, $table)) {
-								$sql = 	"ALTER TABLE  " . $table . 
-										"	ADD COLUMN " . $field . " BOOLEAN " .
-										(( $null ) ? "" : "NOT" ) . " NULL " .   
-										(( ! is_null($default) ) ?  " DEFAULT " . (($default) ? "TRUE" : "FALSE") : "") . " " .  
-										(( $after != '' ) ? " AFTER " . $after : "" ); 
-								
+								..............
 								return $this->db->query($sql);
 							}
 						}//END function add_boolean_field_to_table
@@ -415,9 +389,7 @@ CHANGES
 						{
 							if ($handle = opendir($directory)) {
 								while (( $file = readdir($handle)) !== false ) {
-									if ($file != "." && $file != "..") {
-										system("rm -rf " . escapeshellarg($directory . '/' . $file));
-									}
+									................
 								}
 							}
 							
